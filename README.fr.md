@@ -35,7 +35,7 @@ scripts/new-service.sh morfwatch morfWatch     # Linux/macOS
 # scripts\new-service.ps1 morfwatch morfWatch  # Windows
 ```
 
-Crée `../morfWatch_travail` avec tous les noms remplacés (`morfTemplateService` →
+Crée `../morfWatch` avec tous les noms remplacés (`morfTemplateService` →
 `morfWatch`, `morftemplate` → `morfwatch`, `MORFTEMPLATE` → `MORFWATCH`). Il
 compile tel quel. Ensuite :
 
