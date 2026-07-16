@@ -68,7 +68,7 @@ install -m 0755 "$BIN" "$APP_DIR/morftemplate"
 # La config n'est PAS ecrasee si elle existe deja (reglages locaux preserves).
 if [[ ! -f "$APP_DIR/morftemplate.json" ]]; then
     install -m 0644 "$REPO_ROOT/config/morftemplate.example.json" "$APP_DIR/morftemplate.json"
-    echo "Config initiale copiee : $APP_DIR/morftemplate.json (a adapter : port serie, capteurs)."
+    echo "Config initiale copiee : $APP_DIR/morftemplate.json (a adapter)."
 else
     echo "Config existante conservee : $APP_DIR/morftemplate.json"
 fi
@@ -87,4 +87,4 @@ sleep 1
 systemctl --no-pager --lines=0 status "$SERVICE_NAME" || true
 echo
 echo "Journaux :  journalctl -u $SERVICE_NAME -f"
-echo "Test API :  curl http://127.0.0.1:8788/presence"
+echo "Test API :  curl http://127.0.0.1:8799/status"
