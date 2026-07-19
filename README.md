@@ -2,7 +2,7 @@
 
 *Read in another language: **English** (this document) · [Français](README.fr.md).*
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue)](CHANGELOG.md)
 ![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus)
 ![Qt](https://img.shields.io/badge/Qt-6-41CD52?logo=qt)
 ![Build](https://img.shields.io/badge/CMake-3.21+-064F8C?logo=cmake)
@@ -35,7 +35,7 @@ scripts/new-service.sh morfwatch morfWatch     # Linux/macOS
 # scripts\new-service.ps1 morfwatch morfWatch  # Windows
 ```
 
-Creates `../morfWatch` with every name replaced (`morfTemplateService` →
+Creates `../morfWatch_travail` with every name replaced (`morfTemplateService` →
 `morfWatch`, `morftemplate` → `morfwatch`, `MORFTEMPLATE` → `MORFWATCH`). It
 compiles as-is. Then:
 
