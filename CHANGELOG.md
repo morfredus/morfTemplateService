@@ -3,6 +3,12 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [Non publié]
+
+### Modifié
+
+- Documentation d'amorçage mise à jour avec les noms canoniques des projets.
+
 ## [0.1.1] – 2026-07-19
 
 ### Modifié
