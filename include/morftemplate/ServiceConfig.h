@@ -36,7 +36,14 @@ struct ServiceConfig {
     QString appName    = QStringLiteral("morfTemplateService");
     QString instanceId;                              // defaut = appName@hostname
 
-    quint16 httpPort    = 8799;                      // 0 => pas de serveur HTTP
+    // 8901 appartient au bloc des gabarits (8900-8999), jamais utilise en
+    // production. C'est le defaut COMPILE : il s'applique quand aucun fichier de
+    // configuration n'est trouve. Il ne doit donc jamais valoir un port du bloc
+    // de service (8787-8799), sans quoi un service sans config entrerait en
+    // collision avec un service du parc.
+    // >>> A ADAPTER : reserver un port dans 'ports.allocations' de
+    //     morfTools/ecosystem.json, puis le reporter ici ET dans config/. <<<
+    quint16 httpPort    = 8901;                      // 0 => pas de serveur HTTP
     QString bindAddress = QStringLiteral("0.0.0.0");
 
     // Annonce de presence sur le LAN via morfBeacon.

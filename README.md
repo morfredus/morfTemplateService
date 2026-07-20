@@ -58,7 +58,7 @@ cmake --build --preset mingw
 
 ```sh
 ./build-mingw/service/morftemplate.exe          # 'example' module fallback
-curl http://127.0.0.1:8799/modules
+curl http://127.0.0.1:8901/modules
 ```
 
 ## Install as a service

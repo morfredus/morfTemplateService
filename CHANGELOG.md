@@ -5,6 +5,36 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Corrigé
+
+- **Le gabarit livrait le port 8799, déjà attribué à morfAnalytics.** Tout
+  service créé par la procédure recommandée démarrait donc sur un port occupé —
+  échec de *bind*, ou pire, réponses provenant du mauvais service. Le défaut
+  était situé sur le chemin nominal : il ne frappait pas un usage marginal, mais
+  la voie officielle d'extension de l'écosystème.
+
+  Le port passe à **8901**, dans le bloc 8900-8999 réservé aux gabarits et aux
+  exemples. Un port de cette plage ne peut pas être confondu avec une
+  attribution du parc : un projet cloné qui n'a pas encore réservé le sien est
+  visiblement inachevé, au lieu d'entrer silencieusement en conflit.
+
+- **La correction porte sur toute la chaîne, pas seulement sur la
+  configuration.** `ServiceConfig::httpPort` valait aussi 8799 : ce défaut
+  *compilé* s'applique quand aucun fichier de configuration n'est trouvé, si
+  bien qu'un service correctement configuré pouvait malgré tout retomber sur le
+  port de morfAnalytics. Sont alignés : `config/morftemplate.example.json`,
+  `include/morftemplate/ServiceConfig.h`, `examples/minimal/main.cpp`, les deux
+  README et les deux scripts d'installation de service.
+
+### Ajouté
+
+- `scripts/new-service.(sh|ps1)` rappelle désormais, en fin d'exécution, que le
+  projet généré hérite d'un port de gabarit et indique la marche à suivre :
+  réserver un port dans `ports.allocations` de `morfTools/ecosystem.json`, le
+  reporter aux **deux** emplacements, puis vérifier avec `morf doctor`. Le
+  script renommait les fichiers sans jamais mentionner le port, ce qui laissait
+  l'étape entièrement à la mémoire de l'utilisateur.
+
 ### Modifié
 
 - Documentation d'amorçage mise à jour avec les noms canoniques des projets.

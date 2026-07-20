@@ -2,7 +2,9 @@
   "_comment": "Configuration morfTemplateService. Copier en 'morftemplate.json' et adapter. Le service la lit via --config, ou la cherche dans le dossier courant, a cote du binaire, ou dans /etc/morftemplate/.",
 
   "app_name": "morfTemplateService",
-  "http_port": 8799,
+
+  "_comment_port": "8901 appartient au bloc des gabarits (8900-8999), JAMAIS utilise en production. Un service clone doit donc changer ce port avant tout deploiement : reserver le sien dans 'ports.allocations' de morfTools/ecosystem.json (bloc de service 8787-8799), puis le reporter ici. 'morf doctor' echoue tant que la configuration et le registre divergent. Ne jamais recopier le port d'un service existant : le registre est la seule liste a jour.",
+  "http_port": 8901,
   "bind_address": "0.0.0.0",
 
   "beacon": {
