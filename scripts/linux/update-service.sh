@@ -86,7 +86,8 @@ fi
 # APPARUS depuis l'installation sont ajoutes. Sans cela, une version
 # introduisant un parametre le laissait absent indefiniment et la fonction
 # correspondante ne s'activait jamais, en silence.
-CONFIG_FILE="$APP_DIR/morftemplate.json"
+# La configuration vit dans /etc, plus a cote du binaire.
+CONFIG_FILE="${MORF_CONFIG_DIR:-/etc/morftemplate}/morftemplate.json"
 EXAMPLE_FILE="$REPO_ROOT/config/morftemplate.example.json"
 if [[ $NO_CONFIG -eq 0 && -f "$EXAMPLE_FILE" ]]; then
     if [[ ! -f "$CONFIG_FILE" ]]; then
