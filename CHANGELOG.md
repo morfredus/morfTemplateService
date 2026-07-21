@@ -5,6 +5,8 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+## [0.2.0] – 2026-07-21
+
 ### Corrigé
 
 - **Le gabarit livrait le port 8799, déjà attribué à morfAnalytics.** Tout
