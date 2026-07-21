@@ -64,11 +64,20 @@ curl http://127.0.0.1:8901/modules
 ## Install as a service
 
 ```sh
-# Linux (systemd)
-sudo ./scripts/linux/install-service.sh
-# Windows (Task Scheduler, PowerShell Administrateur)
-powershell -ExecutionPolicy Bypass -File scripts\windows\install-service.ps1
+# Any platform: Linux, Windows, Raspberry Pi
+sudo ./service.py install      # build if needed, install, start
+sudo ./service.py update       # rebuild, replace the binary, restart
+sudo ./service.py uninstall    # deregister, keeping your configuration
+./service.py status            # what the system says about it
 ```
+
+One entry point everywhere. What this service is -- its name, its directory,
+its configurations -- is declared in `service.json` beside it; the four install
+steps live once for the whole parc, and only the service manager differs by
+platform (systemd, Windows, launchd).
+
+The former `scripts/linux/install-service.sh` and its PowerShell twin still
+work and are unchanged.
 
 ## Documentation
 
