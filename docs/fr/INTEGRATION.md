@@ -78,10 +78,9 @@ vos types et paramètres.
 
 ```sh
 # Linux
-sudo ./scripts/linux/install-service.sh
+sudo ./service.py install
 journalctl -u morfwatch -f
 # Windows (PowerShell Administrateur)
-powershell -ExecutionPolicy Bypass -File scripts\windows\install-service.ps1
 ```
 
 ## 8. Finitions

@@ -9,7 +9,7 @@ métier.
 - **Tests d'exemple** (un petit test du serveur HTTP et du registre) que les
   services clonés héritent.
 - **CI d'exemple** (`.github/workflows`) : build multi-plateforme.
-- **`scripts/windows/update-service.ps1`** (pendant Windows de `update-service.sh`).
+- **`scripts/windows/update-service.ps1`** (pendant Windows de `service.py update`).
 - **Option d'authentification** du serveur HTTP (jeton) réutilisable.
 - **Squelette de `docs/fr/PROTOCOL.md`** à remplir par le service cloné.
 - **Rechargement de config** (SIGHUP) générique.

@@ -76,9 +76,6 @@ its configurations -- is declared in `service.json` beside it; the four install
 steps live once for the whole parc, and only the service manager differs by
 platform (systemd, Windows, launchd).
 
-The former `scripts/linux/install-service.sh` and its PowerShell twin still
-work and are unchanged.
-
 ## Documentation
 
 French documentation in [`docs/fr/`](docs/fr/README.md): architecture, and a

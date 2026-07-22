@@ -77,8 +77,6 @@ ses configurations -- est declare dans `service.json` a cote ; les quatre etapes
 d'installation vivent une seule fois pour tout le parc, et seul le gestionnaire
 de services change selon la plateforme (systemd, services Windows, launchd).
 
-Les anciens `scripts/linux/install-service.sh` et leur jumeau PowerShell
-fonctionnent toujours, inchanges.
 
 ## Documentation
 
