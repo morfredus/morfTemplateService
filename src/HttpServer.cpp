@@ -6,6 +6,7 @@
 
 #include "morftemplate/HttpServer.h"
 #include "morftemplate/ModuleRegistry.h"
+#include "morftemplate/SelfDescription.h"
 #include "morftemplate/Version.h"
 
 #include <QTcpServer>
@@ -171,6 +172,17 @@ QByteArray HttpServer::buildStatusJson() const {
     o["uptime_s"] = static_cast<double>(m_uptime.isValid() ? m_uptime.elapsed() / 1000 : 0);
     o["ts"]       = static_cast<double>(QDateTime::currentSecsSinceEpoch());
     o["metrics"]  = m_registry ? m_registry->metrics() : QJsonObject{};
+
+    // Detail annonce (API) depuis le point UNIQUE. MODELE : tout service
+    // morfSystem se decrit ainsi. describeService n'emet `web_ui` que si une
+    // interface est declaree dans fillAnnouncedDetail ; ce squelette etant
+    // sans interface, seul le bloc `api` apparait.
+    morfbeacon::PresenceConfig self;
+    fillAnnouncedDetail(self);
+    const QJsonObject detail = morfbeacon::describeService(self, port());
+    for (auto it = detail.constBegin(); it != detail.constEnd(); ++it)
+        o[it.key()] = it.value();
+
     return toJson(o);
 }
 

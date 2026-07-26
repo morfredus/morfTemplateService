@@ -5,6 +5,16 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+## [0.2.2] – 2026-07-26
+### Ajouté
+
+- **Déclaration de l'API dans `/status`, comme modèle.** Le squelette montre
+  désormais comment un service se rend « bavard » pour le parc : lister son API
+  dans `fillAnnouncedDetail` (`include/morftemplate/SelfDescription.h`), puis la
+  laisser sérialiser par `morfbeacon::describeService` dans `/status`. Sans
+  interface web, seul le bloc `api` est émis ; le commentaire explique comment
+  déclarer une `web_ui` le cas échéant. Tout nouveau service copie ce patron.
+
 ### Modifié
 
 - **`new-service.sh` suggère un port concret.** Le script exécute
