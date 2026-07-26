@@ -5,6 +5,16 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+### Modifié
+
+- **`new-service.sh` suggère un port concret.** Le script exécute
+  `ecosystem-check.py … next-port` de morfTools et affiche le plus petit port
+  libre du bloc service à réserver, au lieu de « choisir un port libre ». Lire le
+  registre à l'œil pour trouver un trou est précisément ce qui met deux projets
+  sur le même numéro. Le rappel mentionne aussi que `morf doctor` refuse tout
+  port de la plage template en production.
+
+
 ## [0.2.1] – 2026-07-22
 ### Modifié
 

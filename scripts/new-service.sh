@@ -70,8 +70,30 @@ echo "AVANT TOUT DEPLOIEMENT : attribuer un port."
 echo "  Le projet genere herite du port 8901, reserve aux gabarits et jamais"
 echo "  utilise en production. Deux endroits le portent : config/$LOWER.example.json"
 echo "  et le defaut compile dans include/$LOWER/ServiceConfig.h."
-echo "  1. Reserver un port libre du bloc 8787-8799 dans 'ports.allocations'"
-echo "     de morfTools/ecosystem.json (y ajouter aussi ce projet)."
-echo "  2. Le reporter dans les DEUX emplacements ci-dessus."
+
+# Suggere un port concret plutot que « choisis-en un » : lire le registre a
+# l'oeil pour trouver un trou est justement ce qui met deux projets sur le meme
+# numero. Best-effort : si le registre est introuvable (parc partiel), on
+# retombe sur l'instruction generique.
+SUGGESTED=""
+PARC="$(cd "$ROOT/.." && pwd)"   # dossier contenant tous les projets du parc
+for base in "$PARC/morfTools" "$PARC/morfTools_travail"; do
+    if [ -f "$base/ecosystem.json" ]; then
+        SUGGESTED="$(python3 "$base/scripts/ecosystem-check.py" "$base/.." "$base/ecosystem.json" next-port 2>/dev/null || true)"
+        MANIFEST="$base/ecosystem.json"
+        break
+    fi
+done
+
+if [ -n "$SUGGESTED" ]; then
+    echo "  Prochain port libre du bloc service : >>> $SUGGESTED <<<"
+    echo "  1. Ajouter ce projet a 'ports.allocations' de $MANIFEST avec http=$SUGGESTED."
+    echo "  2. Reporter $SUGGESTED dans config/$LOWER.example.json et ServiceConfig.h."
+else
+    echo "  1. Reserver un port libre du bloc 8787-8799 dans 'ports.allocations'"
+    echo "     de morfTools/ecosystem.json (y ajouter aussi ce projet)."
+    echo "  2. Le reporter dans les DEUX emplacements ci-dessus."
+fi
 echo "  3. Verifier avec : morfTools/doctor.sh"
-echo "  'morf doctor' echoue tant que le registre et la configuration divergent."
+echo "  'morf doctor' echoue tant que le registre et la configuration divergent,"
+echo "  et refuse tout port de la plage template en production."
