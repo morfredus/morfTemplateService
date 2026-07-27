@@ -1,4 +1,4 @@
-# Roadmap — morfTemplateService
+# Roadmap - morfTemplateService
 
 Ce dépôt est un **template** : il doit rester minimal, générique et fonctionnel du
 premier coup. On n'y ajoute que ce qui sert à **tous** les services, jamais du

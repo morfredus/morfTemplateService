@@ -1,11 +1,11 @@
-# Journal des versions — morfTemplateService
+# Journal des versions - morfTemplateService
 
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
-## [0.2.2] – 2026-07-26
+## [0.2.2] - 2026-07-26
 ### Ajouté
 
 - **Déclaration de l'API dans `/status`, comme modèle.** Le squelette montre
@@ -25,10 +25,10 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
   port de la plage template en production.
 
 
-## [0.2.1] – 2026-07-22
+## [0.2.1] - 2026-07-22
 ### Modifié
 
-- **Installation, mise à jour et désinstallation par `./service.py`** — point
+- **Installation, mise à jour et désinstallation par `./service.py`** - point
   d'entrée unique multiplateforme (morfdeploy), en remplacement des scripts
   `install-service.sh`/`.ps1`. Le binaire de ce service est inchangé ; seul son
   mode de déploiement évolue.
@@ -38,12 +38,12 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 - **Enrichissement à la mise à jour** : une clé introduite par une nouvelle
   version est ajoutée avec sa valeur par défaut, sans jamais toucher vos réglages.
 
-## [0.2.0] – 2026-07-21
+## [0.2.0] - 2026-07-21
 
 ### Corrigé
 
 - **Le gabarit livrait le port 8799, déjà attribué à morfAnalytics.** Tout
-  service créé par la procédure recommandée démarrait donc sur un port occupé —
+  service créé par la procédure recommandée démarrait donc sur un port occupé -
   échec de *bind*, ou pire, réponses provenant du mauvais service. Le défaut
   était situé sur le chemin nominal : il ne frappait pas un usage marginal, mais
   la voie officielle d'extension de l'écosystème.
@@ -74,7 +74,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 
 - Documentation d'amorçage mise à jour avec les noms canoniques des projets.
 
-## [0.1.1] – 2026-07-19
+## [0.1.1] - 2026-07-19
 
 ### Modifié
 
@@ -102,7 +102,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
   `.service` dans le dépôt ne parvenait jamais à `/etc/systemd/system` : le
   service continuait de tourner avec l'ancienne définition.
 
-## [0.1.0] — 2026-07-16
+## [0.1.0] - 2026-07-16
 
 ### Ajouté
 

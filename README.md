@@ -9,7 +9,7 @@
 ![License](https://img.shields.io/badge/License-GPL--3.0--only-blue)
 
 **Reusable skeleton for morfSystem services.** Clone it, code the business logic
-in modules, and you get — for free — an HTTP API, a JSON config loader, a LAN
+in modules, and you get - for free - an HTTP API, a JSON config loader, a LAN
 announce (morfBeacon), a systemd service **and** a Windows service, all working
 first try.
 
@@ -17,16 +17,16 @@ It is distilled from morfSensor and morfNotify: same architecture, no domain cod
 
 ## What you get out of the box
 
-- **`IModule` extension point** — plug your business logic as one or more modules
+- **`IModule` extension point** - plug your business logic as one or more modules
   (a sensor, a notifier, a collector…). A working `ExampleModule` ships as a
   starting point.
-- **HTTP API** (GET + POST) — `GET /status` (morfBeacon-compatible), `GET /healthz`,
+- **HTTP API** (GET + POST) - `GET /status` (morfBeacon-compatible), `GET /healthz`,
   `GET /modules`, `GET /modules/{id}`, and a `POST /example` showing body parsing.
-- **Config** — JSON file with a `modules` list; a factory turns it into modules.
-- **LAN announce** — morfBeacon heartbeat (bundled, no external dependency).
-- **Service install** — `scripts/linux/` (systemd) and `scripts/windows/`
+- **Config** - JSON file with a `modules` list; a factory turns it into modules.
+- **LAN announce** - morfBeacon heartbeat (bundled, no external dependency).
+- **Service install** - `scripts/linux/` (systemd) and `scripts/windows/`
   (Task Scheduler), copying binary + config to a fixed location.
-- **Clone helper** — `scripts/new-service.sh` / `.ps1` scaffolds a renamed project.
+- **Clone helper** - `scripts/new-service.sh` / `.ps1` scaffolds a renamed project.
 
 ## Bootstrap a new service
 
@@ -39,7 +39,7 @@ Creates `../morfWatch` with every name replaced (`morfTemplateService` →
 `morfWatch`, `morftemplate` → `morfwatch`, `MORFTEMPLATE` → `MORFWATCH`). It
 compiles as-is. Then:
 
-1. Code your logic in `src/ExampleModule.*` (rename it) — implement `IModule`.
+1. Code your logic in `src/ExampleModule.*` (rename it) - implement `IModule`.
 2. Register your type(s) in `src/ModuleFactory.cpp` + `knownTypes()`.
 3. Adapt the HTTP routes (`src/HttpServer.cpp`) and CMake source list.
 4. Update the comments / config / docs.
@@ -83,4 +83,4 @@ step-by-step guide to turn this template into your service.
 
 ## License
 
-GPL-3.0-only — © 2026 morfredus (Frédéric Biron).
+GPL-3.0-only - © 2026 morfredus (Frédéric Biron).

@@ -9,7 +9,7 @@
 ![License](https://img.shields.io/badge/License-GPL--3.0--only-blue)
 
 **Squelette réutilisable pour les services de l'écosystème morfSystem.** On le
-clone, on code le métier dans des modules, et on obtient — gratuitement — une API
+clone, on code le métier dans des modules, et on obtient - gratuitement - une API
 HTTP, un chargeur de config JSON, une annonce LAN (morfBeacon), un service systemd
 **et** un service Windows, le tout fonctionnel du premier coup.
 
@@ -17,16 +17,16 @@ Distillé de morfSensor et morfNotify : même architecture, sans code métier.
 
 ## Ce qu'on a d'emblée
 
-- **Point d'extension `IModule`** — branchez votre métier en un ou plusieurs
+- **Point d'extension `IModule`** - branchez votre métier en un ou plusieurs
   modules (capteur, notifieur, collecteur…). Un `ExampleModule` fonctionnel sert
   de point de départ.
-- **API HTTP** (GET + POST) — `GET /status` (compatible morfBeacon), `/healthz`,
+- **API HTTP** (GET + POST) - `GET /status` (compatible morfBeacon), `/healthz`,
   `/modules`, `/modules/{id}`, et `POST /example` qui montre la lecture d'un corps.
-- **Config** — fichier JSON avec une liste `modules` ; une fabrique les instancie.
-- **Annonce LAN** — heartbeat morfBeacon (embarqué, aucune dépendance externe).
-- **Installation service** — `scripts/linux/` (systemd) et `scripts/windows/`
+- **Config** - fichier JSON avec une liste `modules` ; une fabrique les instancie.
+- **Annonce LAN** - heartbeat morfBeacon (embarqué, aucune dépendance externe).
+- **Installation service** - `scripts/linux/` (systemd) et `scripts/windows/`
   (Planificateur de tâches), copie binaire + config dans un dossier fixe.
-- **Aide au clonage** — `scripts/new-service.sh` / `.ps1` amorce un projet renommé.
+- **Aide au clonage** - `scripts/new-service.sh` / `.ps1` amorce un projet renommé.
 
 ## Amorcer un nouveau service
 
@@ -39,7 +39,7 @@ Crée `../morfWatch` avec tous les noms remplacés (`morfTemplateService` →
 `morfWatch`, `morftemplate` → `morfwatch`, `MORFTEMPLATE` → `MORFWATCH`). Il
 compile tel quel. Ensuite :
 
-1. Codez votre logique dans `src/ExampleModule.*` (renommez-le) — implémentez
+1. Codez votre logique dans `src/ExampleModule.*` (renommez-le) - implémentez
    `IModule`.
 2. Enregistrez vos types dans `src/ModuleFactory.cpp` + `knownTypes()`.
 3. Adaptez les routes HTTP (`src/HttpServer.cpp`) et la liste de sources CMake.
@@ -80,9 +80,9 @@ de services change selon la plateforme (systemd, services Windows, launchd).
 
 ## Documentation
 
-- [Architecture](docs/fr/ARCHITECTURE.md) — les classes et le fil d'exécution.
-- [Guide « créer votre service »](docs/fr/INTEGRATION.md) — pas à pas.
+- [Architecture](docs/fr/ARCHITECTURE.md) - les classes et le fil d'exécution.
+- [Guide « créer votre service »](docs/fr/INTEGRATION.md) - pas à pas.
 
 ## Licence
 
-GPL-3.0-only — © 2026 morfredus (Frédéric Biron).
+GPL-3.0-only - © 2026 morfredus (Frédéric Biron).

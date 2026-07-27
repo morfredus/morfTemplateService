@@ -1,4 +1,4 @@
-# Architecture — morfTemplateService
+# Architecture - morfTemplateService
 
 Retour à l'[index de la documentation](README.md).
 
@@ -27,7 +27,7 @@ Chargées depuis un fichier JSON. `ServiceConfig` porte les réglages globaux
 (`type`, `id`, `params`) décrit un module à instancier. **À enrichir** avec vos
 réglages propres.
 
-### `IModule` (interface, QObject) — le point d'extension
+### `IModule` (interface, QObject) - le point d'extension
 
 C'est **ici** que vit le métier. Une sous-classe implémente `start()`, `stop()`
 et `statusJson()` (état exposé dans `/modules`), et peut émettre `updated()`.
