@@ -49,6 +49,7 @@ add_library(morfTemplateService STATIC
     src/ModuleRegistry.cpp
     src/HttpServer.cpp
     src/Service.cpp
+    src/Paths.cpp                         # resolution des emplacements (doctrine FILESYSTEM.md)
     src/ModuleFactory.cpp
     src/ExampleModule.cpp                 # <-- remplacer par votre metier
     include/morftemplate/IModule.h

@@ -27,5 +27,10 @@
   "config_dir": {
     "linux": "/etc/morfsystem/morftemplate",
     "windows": "%ProgramData%/morfsystem/morftemplate"
+  },
+  "_comment_state_dir": "L'ETAT PERSISTANT (cles, coffre, curseurs, sequences de sync, index, derniere execution) vit sous /var/lib/morfsystem/<service> : distinct de la config (/etc, admin, lecture seule) et du programme (/opt). Sous Linux, l'unite declare StateDirectory=morfsystem/<service> : systemd cree ce dossier possede par le user du service. Le service resout sa racine d'etat via $STATE_DIRECTORY (repli /var/lib/morfsystem/<service>). Ne jamais y mettre de config admin, ni mettre d'etat dans /etc (c'est ce qui rendait le coffre morfCollector inecrivable). Sauvegarder /var/lib = sauvegarder tout ce qui est vivant.",
+  "state_dir": {
+    "linux": "/var/lib/morfsystem/morftemplate",
+    "windows": "%ProgramData%/morfsystem/morftemplate/state"
   }
 }

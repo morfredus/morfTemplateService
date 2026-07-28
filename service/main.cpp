@@ -14,19 +14,40 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QJsonParseError>
 #include <QTextStream>
 
 #include <morftemplate/Service.h>
 #include <morftemplate/ModuleFactory.h>
+#include <morftemplate/Paths.h>
 #include <morftemplate/Version.h>
 
 using morftemplate::ServiceConfig;
 
 namespace {
 
+// Nom court du service (dossiers /etc, /var/lib, unite systemd). >>> A ADAPTER. <<<
+const QString kServiceName = QStringLiteral("morftemplate");
+
 QTextStream& out() { static QTextStream s(stdout); return s; }
 QTextStream& err() { static QTextStream s(stderr); return s; }
+
+// Fusion recursive : les cles de `overlay` ecrasent celles de `base`. Deux objets
+// se fusionnent en profondeur ; toute autre valeur (tableau, scalaire) remplace.
+// Sert a superposer les surcharges editables (etat) sur la config admin (/etc).
+void mergeInto(QJsonObject& base, const QJsonObject& overlay) {
+    for (auto it = overlay.constBegin(); it != overlay.constEnd(); ++it) {
+        const QJsonValue bv = base.value(it.key());
+        if (bv.isObject() && it.value().isObject()) {
+            QJsonObject merged = bv.toObject();
+            mergeInto(merged, it.value().toObject());
+            base[it.key()] = merged;
+        } else {
+            base[it.key()] = it.value();
+        }
+    }
+}
 
 QString findDefaultConfig() {
     const QString exeDir = QCoreApplication::applicationDirPath();
@@ -55,9 +76,12 @@ ServiceConfig fallbackConfig() {
     return c;
 }
 
-bool loadConfig(const QString& path, ServiceConfig* outCfg, QString* error) {
+// Lit un fichier JSON en objet. `required` distingue une absence tolérée (les
+// surcharges, optionnelles) d'une erreur dure (la config admin demandée).
+bool readJsonObject(const QString& path, bool required, QJsonObject* out, QString* error) {
     QFile f(path);
     if (!f.open(QIODevice::ReadOnly)) {
+        if (!required) { *out = QJsonObject(); return true; }
         *error = QStringLiteral("impossible d'ouvrir %1 : %2").arg(path, f.errorString());
         return false;
     }
@@ -67,7 +91,7 @@ bool loadConfig(const QString& path, ServiceConfig* outCfg, QString* error) {
         *error = QStringLiteral("JSON invalide dans %1 : %2").arg(path, pe.errorString());
         return false;
     }
-    *outCfg = ServiceConfig::fromJson(doc.object());
+    *out = doc.object();
     return true;
 }
 
@@ -109,11 +133,26 @@ int main(int argc, char** argv) {
         config = fallbackConfig();
     } else {
         QString error;
-        if (!loadConfig(configPath, &config, &error)) {
+        QJsonObject base;
+        if (!readJsonObject(configPath, /*required=*/true, &base, &error)) {
             err() << "Erreur de configuration : " << error << '\n';
             return 2;
         }
         out() << "Configuration chargee : " << configPath << '\n';
+
+        // SUPERPOSITION (doctrine FILESYSTEM.md) : la config admin de /etc reste la
+        // reference en lecture seule ; les preferences modifiees a l'execution
+        // (UI web) vivent dans l'etat et sont appliquees PAR-DESSUS. Absence de
+        // surcharges = cas normal, pas une erreur.
+        const QString overridePath = morftemplate::Paths::overrideConfigFile(kServiceName);
+        QJsonObject overrides;
+        if (!readJsonObject(overridePath, /*required=*/false, &overrides, &error)) {
+            err() << "Surcharges ignorees (" << overridePath << ") : " << error << '\n';
+        } else if (!overrides.isEmpty()) {
+            mergeInto(base, overrides);
+            out() << "Surcharges appliquees : " << overridePath << '\n';
+        }
+        config = ServiceConfig::fromJson(base);
     }
 
     morftemplate::Service service(config);
