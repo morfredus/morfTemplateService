@@ -3,6 +3,30 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.4.0] - 2026-07-28
+
+### Ajouté
+
+- **Doctrine config / état / programme, posée comme référence du parc.** Nouveau
+  document `docs/fr/FILESYSTEM.md` : le programme vit sous `/opt`, la config admin
+  (lecture seule) sous `/etc/morfsystem/<service>`, et **l'état persistant généré
+  par le service** (clés, coffres, curseurs, séquences de sync, index) sous
+  `/var/lib/morfsystem/<service>`.
+- **Composant `Paths`** (`include/morftemplate/Paths.h`, `src/Paths.cpp`) :
+  résolution de la racine d'état via `$STATE_DIRECTORY` (posé par systemd), avec
+  repli `/var/lib/morfsystem/<service>` (Linux) ou `%ProgramData%\morfsystem\<service>\state`
+  (Windows).
+- **Superposition de configuration** : la config admin de `/etc` (lecture seule)
+  est fusionnée au chargement avec un fichier de surcharges éditables à
+  l'exécution (`<service>.overrides.json`) rangé dans l'état. Le service n'écrit
+  jamais dans `/etc`.
+
+### Modifié
+
+- **Unité systemd** : ajout de `StateDirectory=morfsystem/morftemplate` (systemd
+  crée le dossier d'état possédé par l'utilisateur du service). Le manifeste
+  `service.json` déclare un bloc `state_dir` par plateforme.
+
 ## [0.3.0] - 2026-07-28
 
 ### Modifié
