@@ -1,5 +1,7 @@
 {
   "_comment": "Deployment facts for this project, read by morfdeploy. The four install steps live in one place for the whole parc; this file states only what is specific to this service. Adding a platform never touches this file.",
+  "_comment_template": "morfTemplateService est le PATRON dont on clone un nouveau service : il n'est jamais installe en production. 'morf.py install --services' le saute grace a ce drapeau (les autres services ne le portent pas).",
+  "template": true,
   "service_name": "morftemplate",
   "display_name": "morfTemplateService",
   "description": "Reference service of the morfSystem ecosystem",
