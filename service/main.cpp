@@ -35,7 +35,8 @@ QString findDefaultConfig() {
         QDir(exeDir).filePath("morftemplate.json"),
         QDir(exeDir).filePath("config/morftemplate.json"),
 #ifdef Q_OS_UNIX
-        QStringLiteral("/etc/morftemplate/morftemplate.json"),
+        QStringLiteral("/etc/morfsystem/morftemplate/morftemplate.json"),
+        QStringLiteral("/etc/morftemplate/morftemplate.json"),   // ancien emplacement (avant le regroupement sous /etc/morfsystem)
 #endif
     };
     for (const QString& c : candidates)
