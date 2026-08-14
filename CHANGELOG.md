@@ -3,6 +3,21 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.4.3] - 2026-08-14
+
+### Corrigé
+
+- **Troncature des grandes réponses HTTP** dans `HttpServer::reply()`. La méthode
+  écrivait la réponse puis appelait `disconnectFromHost()` sans drainer le tampon
+  d'écriture : toute réponse dépassant la taille du tampon socket (~20 Ko constaté)
+  arrivait coupée côté client. Le correctif attend maintenant que `bytesToWrite()`
+  retombe à zéro (via `waitForBytesWritten`, avec délai de garde) avant de fermer.
+  Bug découvert dans morfAnalytics (page `/photo` > 30 Ko coupée en plein `<script>`)
+  et corrigé ici dans le patron, source de vérité du squelette repris par tout le parc.
+- Resynchronisation de la copie vendorée de **morfBeacon** (`third_party/morf/beacon`)
+  en 0.6.1 : même classe de bug corrigée dans son `StatusServer` (grande réponse
+  `/status` coupée faute de drainage du tampon d'écriture).
+
 ## [0.4.2] - 2026-08-14
 
 ### Corrigé
