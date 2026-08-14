@@ -1,5 +1,5 @@
 /*
- * morfTemplateService — demon de service
+ * morfTemplateService - demon de service
  * Copyright (C) 2026 morfredus
  * SPDX-License-Identifier: GPL-3.0-only
  *
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
 
     QCommandLineParser parser;
     parser.setApplicationDescription(
-        QStringLiteral("morfTemplateService — squelette de service morfSystem "
+        QStringLiteral("morfTemplateService - squelette de service morfSystem "
                        "(API HTTP + annonce LAN, modules enfichables)."));
     parser.addHelpOption();
     parser.addVersionOption();

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 
 # =============================================================================
-#  morfTemplateService — squelette reutilisable de service morfSystem.
+#  morfTemplateService - squelette reutilisable de service morfSystem.
 #
 #  POUR CREER UN NOUVEAU SERVICE : le plus simple est le script de clonage
 #      scripts/new-service.sh   morfmonservice MorfMonService   (Linux/macOS)

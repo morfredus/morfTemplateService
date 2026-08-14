@@ -3,6 +3,26 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.4.2] - 2026-08-14
+
+### Corrigé
+
+- Suppression des tirets cadratins dans les fichiers du template (commentaires,
+  docstrings, CMake, chaîne runtime, en-tête `LICENSE`, unité systemd), au profit
+  du tiret simple imposé par la constitution. Le patron ne propage donc plus
+  cette ponctuation interdite aux services clonés.
+
+## [0.4.1] - 2026-08-14
+
+### Modifié
+
+- Resynchronisation de la copie vendorée de **morfBeacon**
+  (`third_party/morf/beacon`) en 0.6.0, alignée sur le dépôt source
+  (`IMetricsProvider.h`, `StatusServer.cpp`). Aucun changement de comportement.
+- Ajout du marqueur de version manquant à la copie vendorée de **morfdeploy**
+  (`third_party/morf/morfdeploy/VERSION` = 0.1.0) ; le code Python était déjà à
+  jour. `morf doctor` de nouveau vert sur les copies vendorées.
+
 ## [0.4.0] - 2026-07-28
 
 ### Ajouté

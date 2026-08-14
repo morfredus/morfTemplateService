@@ -13,7 +13,7 @@
 # rendait le coffre morfCollector inecrivable sous un /etc appartenant a root.
 
 [Unit]
-Description=morfTemplateService — service morfSystem (a adapter)
+Description=morfTemplateService - service morfSystem (a adapter)
 After=local-fs.target network-online.target
 Wants=network-online.target
 
