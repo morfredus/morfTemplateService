@@ -32,5 +32,24 @@
   "state_dir": {
     "linux": "/var/lib/morfsystem/morftemplate",
     "windows": "%ProgramData%/morfsystem/morftemplate/state"
-  }
+  },
+  "_comment_purge": "Catégories de données que CE projet sait effacer, lues par 'service.py purge <id> [--all] [--dry-run]'. Les identifiants sont LIBRES (pas d'énumération figée) : annoncer 'database', 'cache', 'history', 'thumbnails', 'sync-state'... selon le projet. Chaque catégorie porte un label humain et un drapeau 'destructive' (perte réelle de données). Deux types : 'path' (morfdeploy supprime des chemins résolus sous 'base' = state|config|app ; un chemin qui s'échappe de sa base via '..' est refusé) et 'command' (morfdeploy transmet l'intention au binaire du projet, pour une donnée qu'un chemin ne peut pas exprimer, ex. une partie d'une base partagée). Jetons substitués dans une commande : __BINARY__, __STATE_DIR__, __CONFIG_DIR__, __APP_DIR__. Un 'command' n'est simulable sous --dry-run que s'il déclare 'dry_run': true. Bloc facultatif : un service sans 'purge' n'expose simplement aucune catégorie. Exemple ci-dessous, à adapter (le template n'est jamais déployé).",
+  "purge": [
+    {
+      "id": "cache",
+      "label": "Cache reconstructible",
+      "destructive": false,
+      "type": "path",
+      "base": "state",
+      "paths": ["cache"]
+    },
+    {
+      "id": "database",
+      "label": "Base de données du service (irréversible)",
+      "destructive": true,
+      "type": "path",
+      "base": "state",
+      "paths": ["morftemplate.db"]
+    }
+  ]
 }
