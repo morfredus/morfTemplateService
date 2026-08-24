@@ -64,4 +64,15 @@ QString ModuleRegistry::state() const {
     return QStringLiteral("ok");
 }
 
+QJsonObject ModuleRegistry::activity() const {
+    // Le premier module qui declare une activite en cours l'emporte. Le contrat
+    // `activity/1` prevoit une activite courante par service (objet unique).
+    for (IModule* m : m_modules) {
+        const QJsonObject a = m->activityJson();
+        if (!a.isEmpty())
+            return a;
+    }
+    return {};
+}
+
 } // namespace morftemplate

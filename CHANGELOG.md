@@ -3,6 +3,17 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.6.0] - 2026-08-24
+
+### Ajouté
+
+- Support de référence du contrat générique **activité en cours** (`activity/1`,
+  `morfSystem/docs/CONTRAT-ACTIVITE.md`). `IModule::activityJson()` (optionnel,
+  vide par défaut) permet à un module de déclarer un travail long ; le registre
+  l'agrège et `/status` l'expose sous `activity` quand un module travaille. Un
+  nouveau service part ainsi avec le contrat déjà câblé, à remplir selon son
+  métier (et à déclarer terminé à morfAnalytics, cf. le contrat §6).
+
 ## [0.5.2] - 2026-08-21
 
 ### Ajouté
