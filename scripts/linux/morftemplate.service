@@ -16,6 +16,13 @@
 Description=morfTemplateService - service morfSystem (a adapter)
 After=local-fs.target network-online.target
 Wants=network-online.target
+# Alerte de panne FRANCHE : systemd previent morfNotify via le pont morf-alert@
+# (unite generique fournie et installee par morfNotify). Avec Restart=always plus bas,
+# cet OnFailure se declenche quand systemd ABANDONNE apres le start-limit -- une panne
+# reelle, pas un redemarrage transitoire (donc naturellement non spammant). Chemin
+# complementaire du sondage fonctionnel de morfMonitor. Tout nouveau service herite de
+# cette ligne via ce patron ; la retirer pour un service sans alerte.
+OnFailure=morf-alert@%n.service
 
 [Service]
 Type=simple

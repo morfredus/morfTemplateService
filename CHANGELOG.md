@@ -3,6 +3,17 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.7.0] - 2026-09-06
+
+### Added
+
+- **The patron unit now declares `OnFailure=morf-alert@%n.service`**, so every service
+  built from this template inherits the systemd -> morfNotify hard-failure alert (the
+  `morf-alert@` bridge is provided and installed by morfNotify). With `Restart=always`,
+  the alert fires only when systemd gives up after the start limit - a real failure, not
+  a transient restart - so it is naturally not spammy. Remove the line for a service that
+  should not alert.
+
 ## [0.6.0] - 2026-08-24
 
 ### Ajouté
