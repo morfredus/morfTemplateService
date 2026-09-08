@@ -3,6 +3,21 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.7.2] - 2026-09-08
+
+### Changed
+
+- **Reference `service.json`: document `requires_shared_config` and stop suggesting a
+  service deploys the shared parc file.** The `configs` comment no longer says an
+  absolute destination "is how the shared parc configuration reaches /etc/morfsystem"
+  (that pattern double-owned the file and broke a blank install of morfMonitor). It now
+  states plainly: list only the service's own config; the shared
+  `/etc/morfsystem/morfsystem.json` has a single owner (morfTools `config.py shared`)
+  and is never deployed through a service. A new `_comment_requires_shared_config`
+  documents the prerequisite flag for the rare service (e.g. morfMonitor) that needs the
+  shared file present. Comment-only; no behaviour change for the template (never
+  deployed).
+
 ## [0.7.1] - 2026-09-07
 
 ### Changed

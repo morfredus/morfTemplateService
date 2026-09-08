@@ -11,7 +11,7 @@
     "linux": "/opt/morftemplate",
     "windows": "%ProgramData%/morftemplate"
   },
-  "_comment_configs": "Copied at install. 'overwrite' is false by default because these hold settings edited by hand on the machine. An absolute destination is honoured as-is, which is how the shared parc configuration reaches /etc/morfsystem.",
+  "_comment_configs": "Copied at install. 'overwrite' is false by default because these hold settings edited by hand on the machine. List ONLY this service's own config here. Do NOT list the shared parc file (/etc/morfsystem/morfsystem.json): it has a single owner, morfTools 'config.py shared', and is never deployed through a service (declare 'requires_shared_config' if the service needs it present).",
   "configs": [
     {
       "source": "config/morftemplate.example.json",
@@ -22,6 +22,7 @@
       ]
     }
   ],
+  "_comment_requires_shared_config": "Optionnel, defaut false. Mettre a true UNIQUEMENT si le service ne peut faire son travail sans la config partagee du parc (/etc/morfsystem/morfsystem.json). morfdeploy VERIFIE alors sa presence avant d'enregistrer l'unite et refuse sinon (il ne la cree jamais : proprietaire unique = morfTools 'config.py shared'). 'morf install' la provisionne d'abord via 'config.py shared merge'. Ex. : morfMonitor (supervise le parc decrit par ce fichier). La plupart des services n'en ont pas besoin -- ne pas mettre a true par defaut.",
   "status_url": "http://127.0.0.1:8901/status",
   "_comment_config_dir": "La configuration vit sous /etc/morfsystem/<service> : un point d'entree UNIQUE dans /etc pour tout le parc, et non a cote du binaire dans /opt. Effacer /opt/<service> pour reinstaller proprement n'emporte donc pas les reglages.",
   "config_dir": {
