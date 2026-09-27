@@ -3,6 +3,22 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.7.4] - 2026-09-27
+
+### Changed
+
+- Re-vendored morfBeacon to 0.7.2 (documentation-only release; `include/` and
+  `src/` unchanged).
+
+## [0.7.3] - 2026-09-27
+
+### Changed
+
+- Re-vendored morfDeploy to 0.20.7 (dead-code removal and punctuation only; no
+  behaviour change).
+- `ROADMAP.md`: dropped the `scripts/windows/update-service.ps1` idea; `service.py
+  update` already covers Windows through morfDeploy's Windows backend.
+
 ## [0.7.2] - 2026-09-08
 
 ### Changed
