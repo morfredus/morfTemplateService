@@ -3,6 +3,14 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.7.8] - 2026-10-10
+
+### Changed
+
+- **Hardened systemd unit by default** (`ProtectSystem=strict`, `ProtectHome`, `PrivateTmp`,
+  `NoNewPrivileges`), as validated on morfNotify. A new service declares what it writes
+  (`StateDirectory`, `LogsDirectory`, `CacheDirectory`, `ReadWritePaths`) or the write fails.
+
 ## [0.7.7] - 2026-10-10
 
 ### Changed
