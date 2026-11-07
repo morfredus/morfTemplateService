@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-only
  *
  * Charge une configuration JSON, demarre les modules, ouvre l'API HTTP et
- * annonce sa presence sur le LAN (morfBeacon). Squelette reutilisable : le
- * comportement propre au service vit dans les modules (voir IModule).
+ * annonce sa presence sur le LAN (morfBeacon). Le comportement propre au
+ * service vit dans les modules (voir IModule).
  */
 
 #include <QCoreApplication>
@@ -31,6 +31,9 @@ namespace {
 const QString kServiceName = QStringLiteral("morftemplate");
 
 QTextStream& out() { static QTextStream s(stdout); return s; }
+// err() est VIDE apres chaque ecriture : un QTextStream bufferise, et un demon systemd ne
+// se termine jamais. Sans vidage explicite, avertissements et erreurs n'atteignent
+// JAMAIS journalctl.
 QTextStream& err() { static QTextStream s(stderr); return s; }
 
 // Fusion recursive : les cles de `overlay` ecrasent celles de `base`. Deux objets
@@ -66,7 +69,7 @@ QString findDefaultConfig() {
     return {};
 }
 
-// Config de repli : un module 'example', pour tester le squelette sans config.
+// Config de repli : un module 'example', pour demarrer sans fichier de config.
 ServiceConfig fallbackConfig() {
     ServiceConfig c;
     morftemplate::ModuleDef ex;
@@ -130,12 +133,14 @@ int main(int argc, char** argv) {
     if (configPath.isEmpty()) {
         err() << "Aucune configuration trouvee : demarrage avec un module 'example'. "
                  "Fournir --config pour votre configuration.\n";
+        err().flush();
         config = fallbackConfig();
     } else {
         QString error;
         QJsonObject base;
         if (!readJsonObject(configPath, /*required=*/true, &base, &error)) {
             err() << "Erreur de configuration : " << error << '\n';
+            err().flush();
             return 2;
         }
         out() << "Configuration chargee : " << configPath << '\n';
@@ -148,6 +153,7 @@ int main(int argc, char** argv) {
         QJsonObject overrides;
         if (!readJsonObject(overridePath, /*required=*/false, &overrides, &error)) {
             err() << "Surcharges ignorees (" << overridePath << ") : " << error << '\n';
+            err().flush();
         } else if (!overrides.isEmpty()) {
             mergeInto(base, overrides);
             out() << "Surcharges appliquees : " << overridePath << '\n';
@@ -156,12 +162,15 @@ int main(int argc, char** argv) {
     }
 
     morftemplate::Service service(config);
-    for (const QString& w : service.warnings())
+    for (const QString& w : service.warnings()) {
         err() << "Avertissement : " << w << '\n';
+        err().flush();
+    }
 
     if (!service.start()) {
         err() << "Le serveur HTTP n'a pas pu ecouter sur le port "
               << config.httpPort << " (deja utilise ?).\n";
+        err().flush();
         return 3;
     }
 
@@ -170,6 +179,13 @@ int main(int argc, char** argv) {
           << config.bindAddress << ':' << service.httpPort()
           << "/  (GET /status /healthz /modules ; POST /example)\n";
     out().flush();
+
+    // Arret propre (SIGTERM/SIGINT -> quit) : stop() du service ferme le serveur HTTP et
+    // laisse les modules persister leur etat avant la sortie.
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, &service, [&service]() { service.stop(); });
+#ifdef Q_OS_UNIX
+    installSignalBridge(app);
+#endif
 
     return app.exec();
 }

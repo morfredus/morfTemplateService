@@ -5,6 +5,7 @@
  */
 
 #include "morftemplate/HttpServer.h"
+#include "morftemplate/OriginCheck.h"
 #include "morftemplate/ModuleRegistry.h"
 #include "morftemplate/SelfDescription.h"
 #include "morftemplate/Version.h"
@@ -19,6 +20,7 @@
 #include <QJsonParseError>
 #include <QDateTime>
 #include <QUrl>
+#include <QTimer>
 
 #include <utility>
 
@@ -98,6 +100,14 @@ void HttpServer::onSocketReadyRead(QTcpSocket* sock) {
     const QByteArray method = parts.value(0);
     const QByteArray path   = parts.value(1);
     const QByteArray body   = buf.mid(bodyStart, needed);
+
+    // Garde CSRF : une ecriture venue d'une autre origine web est refusee avant tout routage.
+    sock->setProperty("cors", allowsCors(method));
+    if (isCrossOriginWrite(method, headerBlock)) {
+        sock->setProperty("buf", QByteArray());
+        reply(sock, 403, "Forbidden", "{\"error\":\"cross_origin_forbidden\"}");
+        return;
+    }
 
     sock->setProperty("buf", QByteArray());
     handleRequest(sock, method, path, body);
@@ -182,7 +192,7 @@ QByteArray HttpServer::buildStatusJson() const {
 
     // Detail annonce (API) depuis le point UNIQUE. MODELE : tout service
     // morfSystem se decrit ainsi. describeService n'emet `web_ui` que si une
-    // interface est declaree dans fillAnnouncedDetail ; ce squelette etant
+    // interface est declaree dans fillAnnouncedDetail ; ce service etant
     // sans interface, seul le bloc `api` apparait.
     morfbeacon::PresenceConfig self;
     fillAnnouncedDetail(self);
@@ -198,18 +208,26 @@ void HttpServer::reply(QTcpSocket* sock, int code, const QByteArray& reason, con
     resp += "HTTP/1.1 " + QByteArray::number(code) + " " + reason + "\r\n";
     resp += "Content-Type: application/json; charset=utf-8\r\n";
     resp += "Content-Length: " + QByteArray::number(body.size()) + "\r\n";
-    resp += "Access-Control-Allow-Origin: *\r\n";
+    // Jamais d'ACAO sur une ecriture (garde CSRF) ; conserve sur GET/HEAD pour les clients web.
+    if (sock->property("cors").toBool())
+        resp += "Access-Control-Allow-Origin: *\r\n";
     resp += "Connection: close\r\n\r\n";
     resp += body;
     sock->write(resp);
-    // Vider le tampon d'écriture AVANT de fermer : sur une grande réponse (page HTML,
-    // /status volumineux), le corps déborde du tampon socket (~20 Ko constaté) et
-    // `disconnectFromHost` seul en tronque la fin côté client. On draine jusqu'à ce
-    // qu'il ne reste rien à écrire, avec un délai de garde pour ne jamais bloquer.
-    while (sock->bytesToWrite() > 0)
-        if (!sock->waitForBytesWritten(2000))
-            break;
+    sock->flush();
+    // Fermeture ASYNCHRONE, jamais bloquante. disconnectFromHost() passe la socket en
+    // ClosingState et Qt draine le tampon restant EN ARRIERE-PLAN avant de fermer
+    // (disconnected -> deleteLater). Une boucle waitForBytesWritten bloquerait le THREAD
+    // PRINCIPAL le temps qu'un client lent absorbe la reponse, et gelerait au passage le
+    // heartbeat morfBeacon (meme event-loop).
     sock->disconnectFromHost();
+    // Garde-fou : un client reellement mort laisserait la socket en ClosingState. Coupure
+    // apres 10 s ; `sock` sert d'objet-contexte, donc le timer est annule si la socket est
+    // deja detruite (aucun pointeur pendouillant).
+    QTimer::singleShot(10000, sock, [sock]() {
+        if (sock->state() != QAbstractSocket::UnconnectedState)
+            sock->abort();
+    });
 }
 
 } // namespace morftemplate

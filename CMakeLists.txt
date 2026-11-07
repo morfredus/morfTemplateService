@@ -1,18 +1,11 @@
 cmake_minimum_required(VERSION 3.21)
 
 # =============================================================================
-#  morfTemplateService - squelette reutilisable de service morfSystem.
+#  morfTemplateService - service morfSystem (API HTTP, modules, annonce LAN).
 #
-#  POUR CREER UN NOUVEAU SERVICE : le plus simple est le script de clonage
-#      scripts/new-service.sh   morfmonservice MorfMonService   (Linux/macOS)
-#      scripts/new-service.ps1  morfmonservice MorfMonService   (Windows)
-#  qui copie ce projet en remplacant les noms. Sinon, remplacer a la main :
-#      morfTemplateService  (nom du projet / bibliotheque)
-#      morftemplate         (namespace, dossier include, binaire, unite systemd)
-#      MORFTEMPLATE         (prefixe de macro)
-#
-#  Ensuite : coder le metier dans src/ExampleModule.* (ou de nouveaux modules),
-#  adapter la fabrique (src/ModuleFactory.cpp) et la liste de sources ci-dessous.
+#  Le metier vit dans des modules (voir IModule) : coder-le dans src/ExampleModule.*
+#  (ou dans de nouveaux modules), declarer les types dans src/ModuleFactory.cpp
+#  et tenir la liste de sources ci-dessous a jour.
 # =============================================================================
 
 # Version pilotee par le fichier VERSION (convention morfSystem).
@@ -104,4 +97,13 @@ option(MORFTEMPLATE_BUILD_EXAMPLES "Compiler l'exemple de demonstration" ${_morf
 
 if(MORFTEMPLATE_BUILD_EXAMPLES)
     add_subdirectory(examples/minimal)
+endif()
+
+# --- Test du controle d'origine (garde CSRF) : en-tete seul, sans reseau ----
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    enable_testing()
+    add_executable(morftemplate_origin_test test/origin-check-test.cpp)
+    target_include_directories(morftemplate_origin_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_link_libraries(morftemplate_origin_test PRIVATE Qt6::Core)
+    add_test(NAME origin-check COMMAND morftemplate_origin_test)
 endif()

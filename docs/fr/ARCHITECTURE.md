@@ -4,8 +4,8 @@ Retour à l'[index de la documentation](README.md).
 
 ---
 
-Service Qt (Core + Network), sans interface. Le squelette ne contient **aucun
-métier** : tout ce qui est propre à un service donné vit dans des `IModule`.
+Service Qt (Core + Network), sans interface. Le socle ne contient **aucun
+métier** : tout ce qui est propre au service vit dans des `IModule`.
 
 ## Les pièces
 
@@ -31,7 +31,7 @@ réglages propres.
 
 C'est **ici** que vit le métier. Une sous-classe implémente `start()`, `stop()`
 et `statusJson()` (état exposé dans `/modules`), et peut émettre `updated()`.
-`id()`/`type()` l'identifient. Voir `ExampleModule` pour un squelette minimal.
+`id()`/`type()` l'identifient. Voir `ExampleModule` pour un module minimal.
 
 ### `ModuleFactory`
 
@@ -67,6 +67,6 @@ autonome, sans dépôt externe. Resynchroniser avec `scripts/sync-morf.(sh|ps1)`
 
 ## Portabilité
 
-Aucun code spécifique à une plateforme dans le squelette. Comportement identique
+Aucun code spécifique à une plateforme dans le socle. Comportement identique
 Windows / Linux x64 / Raspberry Pi (ARM64). Installation en service fournie pour
 systemd (Linux) et Planificateur de tâches (Windows).

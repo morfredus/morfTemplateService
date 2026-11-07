@@ -36,7 +36,7 @@ struct ServiceConfig {
     QString appName    = QStringLiteral("morfTemplateService");
     QString instanceId;                              // defaut = appName@hostname
 
-    // 8901 appartient au bloc des gabarits (8900-8999), jamais utilise en
+    // 8901 est un port provisoire (plage 8900-8999), jamais utilise en
     // production. C'est le defaut COMPILE : il s'applique quand aucun fichier de
     // configuration n'est trouve. Il ne doit donc jamais valoir un port du bloc
     // de service (8787-8799), sans quoi un service sans config entrerait en

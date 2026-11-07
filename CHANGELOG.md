@@ -3,6 +3,38 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.9.0] - 2026-11-07
+
+### Changed
+
+- `scripts/new-service.sh` and `.ps1` now generate a project with no trace of the template: the
+  clone scripts, `ROADMAP.md`, `CONTRIBUTING.md` and the integration guide are removed; `README`,
+  `README.fr`, `CHANGELOG` (0.1.0), `VERSION` (0.1.0) and the docs indexes are rebuilt from
+  `scripts/skeleton/`; the `template` flag is dropped from `service.json` and `morfproject.json`
+  gets `"type": "service"`.
+- Both scripts end with a check that warns if `template` or `gabarit` is still found in the
+  generated project (third_party and `.github` excluded).
+- Comments, docs and config of the template itself no longer refer to being a template (the port
+  8901 is described as provisional).
+- `service.json` keeps the `template` flag in the template only, so `morf install` still skips it.
+
+## [0.8.0] - 2026-11-07
+
+### Security
+
+- CSRF guard: a write (POST, PUT, PATCH, DELETE) whose `Origin` header names another host:port than
+  `Host` is refused with `403 {"error":"cross_origin_forbidden"}`. Browserless clients (other
+  services, curl) send no `Origin` and are unaffected. `Access-Control-Allow-Origin: *` is now sent
+  on GET/HEAD only, never on writes. New `origin-check` ctest.
+
+### Fixed
+
+- SIGTERM and SIGINT now stop the event loop cleanly (Unix signal bridge), so `Service::stop()`
+  runs on every systemd stop or update instead of the process dying without persisting its state.
+- Everything written to stderr is flushed: warnings no longer stay buffered and absent from journald.
+- The HTTP reply no longer blocks the main thread in `waitForBytesWritten`: the socket is closed
+  asynchronously with a 10 s safety timer.
+
 ## [0.7.9] - 2026-10-15
 
 ### Changed
